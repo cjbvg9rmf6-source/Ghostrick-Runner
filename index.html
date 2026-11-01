@@ -423,6 +423,12 @@ html,body{-webkit-user-select:none;user-select:none;-webkit-touch-callout:none;-
 <script>
 (()=>{
   const allowed=n=>{const el=n&&(n.nodeType===1?n:n.parentElement);return !!(el&&el.closest('#message,input,textarea'))};
+  const game=document.getElementById('game');
+  let moved=false;
+  game.addEventListener('touchstart',e=>{moved=e.touches.length!==1},{passive:true});
+  game.addEventListener('touchmove',()=>{moved=true},{passive:true});
+  game.addEventListener('touchcancel',()=>{moved=true},{passive:true});
+  game.addEventListener('touchend',e=>{if(!moved&&e.cancelable)e.preventDefault()},{passive:false});
   // iOS Safari は user-scalable=no を無視するので、ピンチを直接止める
   for(const t of ['gesturestart','gesturechange','gestureend'])
     document.addEventListener(t,e=>e.preventDefault(),{passive:false});
